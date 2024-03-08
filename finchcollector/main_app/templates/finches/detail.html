@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Finch List</h1>
+<h1>Finch Detail</h1>
 
-{% for finch in finches %}
-<a href="/finches/{{finch.id}}">
+
+
   <div class="card">
     <div class="card-content">
       <!-- Use double curly braces to render variable values -->
@@ -17,6 +17,6 @@
       {% endif %}
     </div>
   </div>
-</a>
-  {% endfor %} {% endblock %}
+
+{% endblock %}
   
