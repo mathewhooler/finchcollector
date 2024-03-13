@@ -1,12 +1,19 @@
 from django.db import models
 from django.urls import reverse
 from datetime import date
+from django.utils import timezone
+import datetime
+from django.core.exceptions import ValidationError
 
 MEALS = (
     ('B', 'Breakfast'),
     ('L', 'Lunch'),
     ('D', 'Dinner')
 )
+def validate_date(date):
+    if date > datetime.date.today():
+        raise ValidationError(f"{date} is in the future", params={"date":date})
+
 
 class Finch(models.Model):
     name = models.CharField(max_length=100)
@@ -24,7 +31,8 @@ class Finch(models.Model):
         return self.feeding_set.filter(date=date.today()).count() >= len(MEALS)
 
 class Feeding(models.Model):
-    date = models.DateField('feeding date')
+    date = models.DateField('feeding date', validators=[validate_date])
+    time = models.TimeField(auto_now_add=True)
     meal = models.CharField(
         max_length=1,
         choices=MEALS,
